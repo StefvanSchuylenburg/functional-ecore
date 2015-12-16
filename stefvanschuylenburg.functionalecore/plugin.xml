@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.4"?>
+<plugin>
+   <extension
+         point="org.eclipse.ui.menus">
+      <menuContribution
+            allPopups="false"
+            locationURI="popup:org.eclipse.jdt.ui.PackageExplorer">
+         <menu
+               label="Functional Ecore">
+            <command
+                  commandId="stefvanschuylenburg.functionalecore.generate.metamodel"
+                  label="Generate Metamodel"
+                  style="push">
+            </command>
+            <visibleWhen
+                  checkEnabled="false">
+               <with
+                     variable="activeMenuSelection">
+                  <iterate
+                        ifEmpty="false"
+                        operator="and">
+                     <adapt
+                           type="org.eclipse.core.resources.IResource">
+                        <test
+                              property="org.eclipse.core.resources.extension"
+                              value="ecore">
+                        </test>
+                     </adapt>
+                  </iterate>
+               </with>
+            </visibleWhen>
+         </menu>
+      </menuContribution>
+   </extension>
+   <extension
+         point="org.eclipse.ui.commands">
+      <command
+            defaultHandler="stefvanschuylenburg.functionalecore.GenerateMetaModelHandler"
+            description="Generates an extension of this metamodel"
+            id="stefvanschuylenburg.functionalecore.generate.metamodel"
+            name="Generate Metamodel">
+      </command>
+   </extension>
+
+</plugin>
