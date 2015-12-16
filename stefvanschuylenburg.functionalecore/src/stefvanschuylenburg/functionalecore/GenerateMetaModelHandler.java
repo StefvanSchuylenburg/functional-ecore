@@ -73,7 +73,8 @@ public class GenerateMetaModelHandler extends AbstractHandler {
 	 * @throws IOException 
 	 */
 	private void generateMetaModel(URI sourceURI, URI targetURI) throws IOException {
-		URI transformation = URI.createPlatformPluginURI("org.example.functionalecore.builder/transforms/addFunctions.qvto", true);
+		URI transformation = URI.createPlatformPluginURI(
+				"stefvanschuylenburg.functionalecore/transforms/addFunctions.qvto", true);
 		TransformationExecutor executor = new TransformationExecutor(transformation);
 		
 		ResourceSet resourceSet = new ResourceSetImpl();
