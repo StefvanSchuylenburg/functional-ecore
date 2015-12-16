@@ -1,0 +1,126 @@
+modeltype Ecore uses 'http://www.eclipse.org/emf/2002/Ecore';
+
+/**
+ * The transformation takes a normal ecore model and add function classes to it.
+ */
+transformation addFunctions(in _source: Ecore, in _ecore: Ecore, out _target: Ecore);
+
+main() {
+	// map for the target model
+	var root := _source.rootObjects()![EPackage];
+	root.map transform();
+}
+
+
+/**
+ * Transform the EPackage (that is the package holding all the classifiers)
+ * of the source to the package of the target.
+ */
+mapping EPackage::transform(): EPackage {
+	name := self.name + "_fun";
+	nsPrefix := self.nsPrefix + "_fun";
+	nsURI := self.nsURI + "/functional";
+	
+	// Creating the model elements
+	var lib := object EClass {
+		name := "Library";
+		eStructuralFeatures := object EReference {
+			name := "functions";
+			containment := true;
+			lowerBound := 0;
+			upperBound := -1;
+			eType := ecore("EObject");
+		};
+	};
+	var function := object EClass {
+		name := "Function";
+		eStructuralFeatures := Set{
+			object EReference {
+				name := "body";
+				containment := true;
+				lowerBound := 1;
+				upperBound := 1;
+				eType := ecore("EObject");
+			},
+			object EAttribute {
+				name := "name";
+				eType := ecore("EString");
+			}
+		};
+	};
+	
+	var functionClasses := self.referencedClasses()->map toFunctionClass(function, self.nsURI + "/functional");
+	var paramClasses := self.referencedClasses()->map toParamClass(self.nsURI + "/functional");
+	eClassifiers := self.eClassifiers
+		->union(functionClasses)
+		->union(paramClasses)
+		->union(Set{lib, function});
+}
+
+/**
+ * Creates a function class that is a subtype of self.
+ * The given function class, is the class defining a function.
+ * @param nsURI the name space of the target model
+ */
+mapping EClass::toFunctionClass(functionClass: EClass, nsURI: EString): EClass {
+	name := "FunctionApply" + self.name;
+	eSuperTypes := self;
+	
+	eAnnotations := object EAnnotation {
+		source := nsURI + "/FunctionApply";
+	};
+	
+	eStructuralFeatures := Set{
+		object EReference {
+			name := "function";
+			eType := functionClass;
+			containment := false;
+			lowerBound := 1;
+			upperBound := 1;
+		},
+		object EReference {
+			name := "argument";
+			eType := ecore("EObject");
+			containment := true;
+			lowerBound := 0;
+			upperBound := -1;
+		}
+	};
+}
+
+/**
+ * Creates a Lambda class htat is a subtype of self
+ * @param nsURI the name space of the target model
+ */
+mapping EClass::toParamClass(nsURI: EString): EClass {
+	name := "Param" + self.name;
+	eSuperTypes := self;
+	
+	eAnnotations := object EAnnotation {
+		source := nsURI + "/Param";
+	};
+	
+	eStructuralFeatures := Set {
+		object EAttribute {
+			name := "index";
+			eType := ecore("EInt");
+			defaultValueLiteral := "1";
+		}
+	};
+}
+
+
+/**
+ * Gets all the classes in the EPackage with a reference to it
+ */
+query EPackage::referencedClasses(): Collection(EClass) {
+	var refs := self.eClassifiers.allSubobjectsOfKind(EReference).oclAsType(EReference);
+	return refs.eReferenceType->selectByKind(EClass);
+}
+
+/**
+ * Finds the Classifier with the given name in the Ecore model
+ */
+query ecore(name: EString): EClassifier {
+	return _ecore.objectsOfType(EClassifier)->any(classifier: EClassifier | classifier.name = name);
+}
