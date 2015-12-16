@@ -5,6 +5,10 @@ Bundle-SymbolicName: stefvanschuylenburg.functionalecore
 Bundle-Version: 1.0.0.qualifier
 Bundle-Activator: stefvanschuylenburg.functionalecore.Activator
 Require-Bundle: org.eclipse.ui,
- org.eclipse.core.runtime
+ org.eclipse.core.runtime,
+ org.eclipse.core.resources;bundle-version="3.9.1",
+ org.eclipse.emf.common;bundle-version="2.10.1",
+ org.eclipse.emf.ecore;bundle-version="2.10.2",
+ org.eclipse.m2m.qvt.oml;bundle-version="3.4.1"
 Bundle-RequiredExecutionEnvironment: JavaSE-1.8
 Bundle-ActivationPolicy: lazy
