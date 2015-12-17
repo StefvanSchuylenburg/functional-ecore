@@ -43,4 +43,12 @@
       </command>
    </extension>
 
+   <extension point="org.eclipse.emf.ecore.generated_package">
+      <!-- @generated PackageContainer -->
+      <package
+            uri="http://stefvanschuylenburg/functionalecore/PackageContainer"
+            class="PackageContainer.PackageContainerPackage"
+            genModel="models/PackageContainer.genmodel"/>
+   </extension>
+
 </plugin>
