@@ -1,6 +1,15 @@
 Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
-Bundle-Name: stefvanschuylenburg.functionalecore.packagecontainer
-Bundle-SymbolicName: stefvanschuylenburg.functionalecore.packagecontainer; singleton:=true
+Bundle-Name: %pluginName
+Bundle-SymbolicName: stefvanschuylenburg.functionalecore.packagecontainer;singleton:=true
 Bundle-Version: 0.1.0.qualifier
-Require-Bundle: org.eclipse.emf.ecore
+Bundle-ClassPath: .
+Bundle-Vendor: %providerName
+Bundle-Localization: plugin
+Bundle-RequiredExecutionEnvironment: JavaSE-1.8
+Export-Package: PackageContainer,
+ PackageContainer.impl,
+ PackageContainer.util
+Require-Bundle: org.eclipse.core.runtime,
+ org.eclipse.emf.ecore;visibility:=reexport
+Bundle-ActivationPolicy: lazy
