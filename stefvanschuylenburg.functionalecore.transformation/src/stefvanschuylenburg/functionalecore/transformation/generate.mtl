@@ -1,5 +1,5 @@
 [comment encoding = UTF-8 /]
-[module generate('http://example.org/packagecontainer', 'http://www.eclipse.org/emf/2002/Ecore')]
+[module generate('http://stefvanschuylenburg.functionalecore/packagecontainer', 'http://www.eclipse.org/emf/2002/Ecore')]
 
 
 [template public generateTransformation(container : EPackageContainer)]
