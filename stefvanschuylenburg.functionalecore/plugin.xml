@@ -13,6 +13,11 @@
                   label="Generate Metamodel"
                   style="push">
             </command>
+            <command
+                  commandId="stefvanschuylenburg.functionalecore.generate.transformation"
+                  label="Generate Transformation"
+                  style="push">
+            </command>
             <visibleWhen
                   checkEnabled="false">
                <with
@@ -41,14 +46,13 @@
             id="stefvanschuylenburg.functionalecore.generate.metamodel"
             name="Generate Metamodel">
       </command>
+      <command
+            defaultHandler="stefvanschuylenburg.functionalecore.GenerateTransformationHandler"
+            description="Generates a transformation for the models with functions"
+            id="stefvanschuylenburg.functionalecore.generate.transformation"
+            name="Generate Transformation">
+      </command>
    </extension>
 
-   <extension point="org.eclipse.emf.ecore.generated_package">
-      <!-- @generated PackageContainer -->
-      <package
-            uri="http://stefvanschuylenburg/functionalecore/PackageContainer"
-            class="PackageContainer.PackageContainerPackage"
-            genModel="models/PackageContainer.genmodel"/>
-   </extension>
 
 </plugin>
