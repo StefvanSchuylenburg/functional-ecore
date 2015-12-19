@@ -95,9 +95,17 @@ public class GenerateTransformationHandler extends AbstractHandler {
 		context.setConfigProperty("keepModeling", true);
 
 		// run the transformation assigned to the executor
-		executor.execute(context, original, extension, container);
-
-		return container;
+		ExecutionDiagnostic diagnostic = executor.execute(context, original, extension, container);
+		
+		if (diagnostic.getSeverity() == Diagnostic.OK) {
+			return container;
+		} else {
+			// log the error
+			IStatus status = BasicDiagnostic.toIStatus(diagnostic);
+			Activator.getDefault().getLog().log(status);
+			
+			throw new RuntimeException("Metamodels can not be transformed to a PackageContainer model.");
+		}
 	}
 	
 	/**
