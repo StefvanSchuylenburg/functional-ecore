@@ -8,6 +8,9 @@ import org.eclipse.core.commands.AbstractHandler;
 import org.eclipse.core.commands.ExecutionEvent;
 import org.eclipse.core.commands.ExecutionException;
 import org.eclipse.core.resources.IFile;
+import org.eclipse.core.runtime.IStatus;
+import org.eclipse.emf.common.util.BasicDiagnostic;
+import org.eclipse.emf.common.util.Diagnostic;
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.resource.Resource;
@@ -18,10 +21,12 @@ import org.eclipse.jface.viewers.ISelection;
 import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.m2m.qvt.oml.BasicModelExtent;
 import org.eclipse.m2m.qvt.oml.ExecutionContextImpl;
+import org.eclipse.m2m.qvt.oml.ExecutionDiagnostic;
 import org.eclipse.m2m.qvt.oml.ModelExtent;
 import org.eclipse.m2m.qvt.oml.TransformationExecutor;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.ui.handlers.HandlerUtil;
+
 import stefvanschuylenburg.functionalecore.transformation.Generate;
 
 /**
@@ -84,7 +89,7 @@ public class GenerateTransformationHandler extends AbstractHandler {
 	 * Generates a EPackageContainer holding the packages of the given original and extension metamodels.
 	 */
 	private ModelExtent generateEPackageContainer(ModelExtent original, ModelExtent extension) {
-		URI transformation = URI.createPlatformPluginURI("org.example.functionalecore.builder/transforms/packageContainer.qvto", true);
+		URI transformation = URI.createPlatformPluginURI("stefvanschuylenburg.functionalecore/transforms/packageContainer.qvto", true);
 		TransformationExecutor executor = new TransformationExecutor(transformation);
 		
 		// The output Model
