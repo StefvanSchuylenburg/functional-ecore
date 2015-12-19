@@ -1,0 +1,17 @@
+modeltype Ecore uses 'http://www.eclipse.org/emf/2002/Ecore';
+modeltype PackageContainer uses 'http://example.org/packagecontainer';
+
+transformation ePackageContainer(in base: Ecore, in functions: Ecore, out packageContainer: PackageContainer);
+
+main() {
+	// get the packages
+	var basePackage := base.rootObjects()![EPackage];
+	var functionsPackage := functions.rootObjects()![EPackage];
+	
+	map combine(basePackage, functionsPackage);
+}
+
+mapping combine(originalPackage: EPackage, extensionPackage: EPackage): PackageContainer::EPackageContainer {
+	original := originalPackage;
+	extension := extensionPackage;
+} 
