@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.0"?>
+
+<!--
+-->
+
+<plugin>
+
+   <extension point="org.eclipse.emf.ecore.generated_package">
+      <!-- @generated PackageContainer -->
+      <package
+            uri="http://stefvanschuylenburg/functionalecore/packagecontainer"
+            class="PackageContainer.PackageContainerPackage"
+            genModel="model/PackageContainer.genmodel"/>
+   </extension>
+
+</plugin>
