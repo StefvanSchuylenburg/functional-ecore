@@ -57,3 +57,6 @@ local.properties
 
 # STS (Spring Tool Suite)
 .springBeans
+
+# Custom ignores for this project
+runtime-EclipseApplication
