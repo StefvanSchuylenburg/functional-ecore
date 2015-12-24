@@ -47,23 +47,22 @@ public class GenerateTransformationHandler extends AbstractHandler {
 		ISelection iSelection = HandlerUtil.getActiveMenuSelection(event);
 		IStructuredSelection selection = (IStructuredSelection) iSelection;
 		
-		// getting the file
+		// getting the original metamodel
 		IFile selectedFile = (IFile) selection.getFirstElement();
 		URI original = URI.createURI(selectedFile.getLocationURI().toString());
+		ModelExtent originalModel = loadModel(original);
 		
-		// get the extended metamodel
-		URI extension = GenerateMetaModelHandler.targetURI(original);
+		// if there is not extended metamodel
+		URI extension = GenerateMetaModelHandler.targetURI(original, originalModel);
 		ResourceSet resources = new ResourceSetImpl();
 		if (resources.getResource(extension, false) == null) { // there is no extended metamodel
 			// creating the extension
 			// TODO: ask user before doing this
 			new GenerateMetaModelHandler().execute(event);
 		}
-		
-		// create the EPackageContainer
-		ModelExtent originalModel = loadModel(original);
 		ModelExtent extensionModel = loadModel(extension);
 		
+		// create the EPackageContainer
 		ModelExtent packageContainer = generateEPackageContainer(originalModel, extensionModel);
 		
 		// Generating the transformation file

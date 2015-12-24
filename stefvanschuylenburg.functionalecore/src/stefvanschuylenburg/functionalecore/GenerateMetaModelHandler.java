@@ -43,12 +43,11 @@ public class GenerateMetaModelHandler extends AbstractHandler {
 		IFile selectedFile = (IFile) selection.getFirstElement();
 		URI source = URI.createURI(selectedFile.getLocationURI().toString());
 		
-		// save to
-		URI target = targetURI(source);
-		
 		// start the generation
 		try {
-			generateMetaModel(source, target);
+			ModelExtent metamodel = generateMetaModel(source);
+			URI target = targetURI(source, metamodel);
+			saveModel(metamodel, target);
 		} catch (IOException e) {
 			MessageDialog.openInformation(shell, "Info",
 			          e.getMessage());
@@ -59,20 +58,21 @@ public class GenerateMetaModelHandler extends AbstractHandler {
 		return null;
 	}
 	
+
 	/**
 	 * Creates the URI for where to save the generated metamodel.
 	 * This URI is based on the URI of the source metamodel.
 	 */
-	static URI targetURI(URI source) {
+	static URI targetURI(URI source, ModelExtent model) {
+		// TODO: call it name_fun.ecore
 		URI directory = source.trimSegments(1);
 		return directory.appendSegment("functional").appendFileExtension("ecore");
 	}
 	
 	/**
 	 * Generates the Function metamodel for the given Metamodel
-	 * @throws IOException 
 	 */
-	private void generateMetaModel(URI sourceURI, URI targetURI) throws IOException {
+	private ModelExtent generateMetaModel(URI sourceURI) {
 		URI transformation = URI.createPlatformPluginURI(
 				"stefvanschuylenburg.functionalecore/transforms/addFunctions.qvto", true);
 		TransformationExecutor executor = new TransformationExecutor(transformation);
@@ -100,17 +100,28 @@ public class GenerateMetaModelHandler extends AbstractHandler {
 
 		// on sucess save the file
 		if(result.getSeverity() == Diagnostic.OK) {
-			List<EObject> outObjects = output.getContents();
-			// let's persist them using a resource 
-		    ResourceSet resourceSet2 = new ResourceSetImpl();
-			Resource outResource = resourceSet2.createResource(targetURI);
-			outResource.getContents().addAll(outObjects);
-			outResource.save(Collections.emptyMap());
+			return output;
 		} else {
 			// turn the result diagnostic into status and send it to error log			
 			IStatus status = BasicDiagnostic.toIStatus(result);
 			Activator.getDefault().getLog().log(status);
+			
+			throw new RuntimeException("The metamodel could not be generated. "
+					+ "See error log for more information.");
 		}
+	}
+	
+	/**
+	 * Saves the given model on the file system at the given path.
+	 * @throws IOException 
+	 */
+	private static void saveModel(ModelExtent model, URI path) throws IOException {
+		List<EObject> objects = model.getContents();
+		// create a resource to save them the model
+	    ResourceSet resourceSet2 = new ResourceSetImpl();
+		Resource outResource = resourceSet2.createResource(path);
+		outResource.getContents().addAll(objects);
+		outResource.save(Collections.emptyMap());
 	}
 	
 
