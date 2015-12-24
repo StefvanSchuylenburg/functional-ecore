@@ -51,9 +51,9 @@ public class GenerateTransformationHandler extends AbstractHandler {
 		IFile selectedFile = (IFile) selection.getFirstElement();
 		URI original = URI.createURI(selectedFile.getLocationURI().toString());
 		ModelExtent originalModel = loadModel(original);
+		URI extension = GenerateMetaModelHandler.targetURI(original);
 		
-		// if there is not extended metamodel
-		URI extension = GenerateMetaModelHandler.targetURI(original, originalModel);
+		// if there is not extension
 		ResourceSet resources = new ResourceSetImpl();
 		if (resources.getResource(extension, false) == null) { // there is no extended metamodel
 			// creating the extension

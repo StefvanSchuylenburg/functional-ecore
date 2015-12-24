@@ -13,6 +13,7 @@ import org.eclipse.emf.common.util.BasicDiagnostic;
 import org.eclipse.emf.common.util.Diagnostic;
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.EObject;
+import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.resource.ResourceSet;
 import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
@@ -46,7 +47,7 @@ public class GenerateMetaModelHandler extends AbstractHandler {
 		// start the generation
 		try {
 			ModelExtent metamodel = generateMetaModel(source);
-			URI target = targetURI(source, metamodel);
+			URI target = targetURI(source);
 			saveModel(metamodel, target);
 		} catch (IOException e) {
 			MessageDialog.openInformation(shell, "Info",
@@ -57,16 +58,15 @@ public class GenerateMetaModelHandler extends AbstractHandler {
 		// return value is not really used...
 		return null;
 	}
-	
 
 	/**
 	 * Creates the URI for where to save the generated metamodel.
 	 * This URI is based on the URI of the source metamodel.
 	 */
-	static URI targetURI(URI source, ModelExtent model) {
-		// TODO: call it name_fun.ecore
+	static URI targetURI(URI source) {
+		String fileName = source.lastSegment().split("\\.")[0];
 		URI directory = source.trimSegments(1);
-		return directory.appendSegment("functional").appendFileExtension("ecore");
+		return directory.appendSegment(fileName + "_fun").appendFileExtension("ecore");
 	}
 	
 	/**
