@@ -10,8 +10,7 @@
       <!-- @generated PackageContainer -->
       <package
             uri="http://stefvanschuylenburg/functionalecore/packagecontainer"
-            class="PackageContainer.PackageContainerPackage"
-            genModel="model/PackageContainer.genmodel"/>
+            class="PackageContainer.PackageContainerPackage"/>
    </extension>
 
 </plugin>
