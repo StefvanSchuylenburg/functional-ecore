@@ -1,0 +1,3 @@
+# Exclude generated files
+PackageContainer
+stefvanschuylenburg/functionalecore/transformation/Generate.java

@@ -3,15 +3,19 @@ Bundle-ManifestVersion: 2
 Bundle-Name: Functional Ecore
 Bundle-SymbolicName: stefvanschuylenburg.functionalecore;singleton:=true
 Bundle-Version: 1.0.0.qualifier
+Bundle-ClassPath: .
+Bundle-Localization: plugin
 Bundle-Activator: stefvanschuylenburg.functionalecore.Activator
 Require-Bundle: org.eclipse.ui,
  org.eclipse.core.runtime,
  org.eclipse.core.resources;bundle-version="3.9.1",
  org.eclipse.emf.common;bundle-version="2.10.1",
- org.eclipse.emf.ecore;bundle-version="2.10.2",
+ org.eclipse.emf.ecore;bundle-version="2.10.2";visibility:=reexport,
  org.eclipse.m2m.qvt.oml;bundle-version="3.4.1",
- stefvanschuylenburg.functionalecore.packagecontainer;bundle-version="0.1.0",
- stefvanschuylenburg.functionalecore.transformation;bundle-version="1.0.0",
- org.eclipse.acceleo.engine;bundle-version="3.5.1"
+ org.eclipse.acceleo.engine;bundle-version="3.6.2"
 Bundle-RequiredExecutionEnvironment: JavaSE-1.8
 Bundle-ActivationPolicy: lazy
+Export-Package: stefvanschuylenburg.functionalecore.transformation,
+ PackageContainer,
+ PackageContainer.impl,
+ PackageContainer.util
